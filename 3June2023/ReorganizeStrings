@@ -1,1 +1,100 @@
 
+
+
+
+APPROACH1-> BRUTE FORCE
+
+class Solution {
+public:
+
+    string reorganizeString(string s) {
+        int n = s.size();
+        string ans(n,'*');
+        
+        int hash[26] = {0};
+
+        for(int i = 0;i<s.size();i++){
+            hash[s[i] - 'a']++;
+            cout << hash[s[i] - 'a'] << " ";
+        }
+
+        cout << endl;
+
+
+        int maxi = INT_MIN;
+        char maxCh;
+
+      for(int i  = 0 ; i < 26;i++){
+          if(maxi < hash[i]){
+              maxi = hash[i];
+              cout << maxi<<" ";
+              cout << endl;
+               maxCh = i + 'a';
+          }
+      }
+
+        int index = 0;
+        while(maxi!=0 && index < s.size()){
+            ans[index] = maxCh;
+            cout << ans <<" ";
+            maxi--;
+            index+=2;
+        }
+        cout << maxi<<" ";
+
+
+        if(maxi!=0){
+            return "";
+        }
+        
+        hash[maxCh - 'a'] = 0;
+
+       
+        for(int i = 0; i < 26; i++){
+            while(hash[i] > 0){
+                index = index>=s.size()  ? 1 : index; 
+                ans[index] = i + 'a';
+                cout << ans[1]<<" ";
+                hash[i]--;
+                index+=2;
+            }
+        }
+
+9
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
