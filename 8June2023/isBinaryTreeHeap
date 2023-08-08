@@ -1,0 +1,87 @@
+class Solution {
+  public:
+  
+  int countNodes(struct Node* tree){
+    if(!tree){
+        return 0;
+    } 
+    int n = 0;
+    n++;
+    n+= countNodes(tree->left);
+    n+= countNodes(tree->right);
+    
+    return n;
+  }
+  bool isCBT(struct Node* tree){
+    if(!tree){
+        return true;
+    }
+    
+    if(tree->left == NULL && tree->right ==  NULL){
+        return true;
+    }
+    
+    queue<pair<struct Node*,int>> q;
+    
+    q.push({tree,1});
+    
+    while(!q.empty()){
+        auto front = q.front();
+        q.pop();
+        struct Node* temp = front.first;
+        int index = front.second;
+        
+        
+      
+        if(temp){
+           
+            if(index > countNodes(tree)){
+                cout <<index<<endl;
+                cout << countNodes(tree) <<endl;
+                return false;
+            }
+        q.push({temp->left,index+1});
+        q.push({temp->right,index+2});
+        }
+    
+    }
+    
+    
+    
+    
+  }
+    bool isHeap(struct Node* tree) {
+        if(!tree){
+            return true;
+        }
+        
+       
+        
+        if(isCBT(tree)){
+             if(tree ->left == NULL && tree->right == NULL){
+            return true;
+        }
+        bool leftAns = isHeap(tree->left);
+        bool rightAns = isHeap(tree->right);
+        
+        if(tree->right == NULL && tree->left){
+            if((tree->data > tree->left->data) && leftAns){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+      
+        else{
+            if((tree->data > tree -> left ->data && tree->data > tree->right->data) && leftAns && rightAns ){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        }
+        return false;
+    }
+};
