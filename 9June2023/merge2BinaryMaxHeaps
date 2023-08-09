@@ -1,0 +1,145 @@
+// User function Template for C++
+
+class Solution{
+    public:
+    
+    void heapify(vector<int>&v,int i){
+    
+        int largest = i;
+        
+        int left = 2*i +1;
+        int right = 2*i +2;
+        
+        if(left < v.size() && v[left] > v[largest]){
+            largest = left;
+        }
+        if(right < v.size() && v[right] > v[largest]){
+            largest = right;
+        }
+        
+        if(largest == i){
+            return ;
+        }
+        
+        else{
+           swap(v[largest],v[i]);
+           heapify(v,largest);
+        }
+    }
+    
+    void convertToHeap(vector<int> &v){
+        for(int i = v.size()/2; i >=0; i--){
+            heapify(v,i);
+        }
+    }
+    vector<int> mergeHeaps(vector<int> &a, vector<int> &b, int n, int m) {
+    //   int a1,b1 = 0;
+       
+    //   vector<int> v;
+    //   while(a1 < n && b1 < m){
+    //   if(a[a1] < b[b1]){
+    //       v.push_back(b[b1]);
+    //       b1++;
+    //   } 
+    //   else{
+    //       v.push_back(a[a1]);
+    //       a1++;
+    //   }
+       
+    //   }
+       
+    //   while(a1 < n){
+    //       v.push_back(a[a1++]);
+    //   }
+        
+    //     while(b1 < m){
+    //         v.push_back(b[b1++]);
+    //     }   
+        
+        
+    //   convertToHeap(v);
+    
+    priority_queue<int> q;
+    
+    for(int i = 0; i < n; i++){
+        q.push(a[i]);
+    }
+    
+    for(int i = 0; i < m; i++){
+        q.push(b[i]);
+    }
+    
+    
+    vector<int> v;
+    
+   while(!q.empty()){
+       v.push_back(q.top());
+       q.pop();
+   }
+   
+   
+   return v;
+   
+   
+    }
+};
+
+
+
+
+
+APPROACH 2
+
+
+
+// User function Template for C++
+
+class Solution{
+    public:
+    void insertElement(vector<int>&b,int element){
+        b.push_back(element);
+        int index = b.size() - 1;
+        
+        while(index > 0){
+            int parent;
+         if(index & 1){
+              parent = index/2;
+         }
+         else{
+              parent = index/2 -1;
+         }
+         
+         if(b[index] > b[parent] ){
+             swap(b[index],b[parent]);
+         }
+         
+         index = parent;
+        }
+    }
+    //12 7 9 10 5 6 2 0
+    vector<int> mergeHeaps(vector<int> &a, vector<int> &b, int n, int m) {
+        for(int i = 0; i < a.size();i++){
+            int element = a[i];
+            insertElement(b,element);
+        }
+        
+        // for(auto i : b){
+        //     cout <<i<<" ";
+        // }
+        return b;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
