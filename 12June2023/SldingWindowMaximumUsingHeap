@@ -1,0 +1,48 @@
+class comp{
+public:
+
+bool operator() (pair<int,int>&a,pair<int,int>&b){
+    return a.first < b.first;
+}
+
+};
+class Solution {
+public:
+    vector<int> maxSlidingWindow (vector<int>& nums, int k) {
+        vector<int> ans;
+
+        priority_queue<pair<int,int>, vector<pair<int,int>>,comp> maxHeap;
+
+        for(int i = 0; i < k ; i++){
+            maxHeap.push({nums[i],i});
+        }
+        
+        ans.push_back(maxHeap.top().first);
+
+        for(int i = k ;i < nums.size(); i++){
+
+
+        maxHeap.push({nums[i],i});
+
+        //   while(!maxHeap.empty()){
+        //     auto top = maxHeap.top();
+        //    int index = top.second; 
+
+        //     if(i - index >= k){
+        //         maxHeap.pop();
+        //     }
+        //     else{
+        //         break;
+        //     }
+
+        //     }
+
+        while(i - maxHeap.top().second >= k){
+            maxHeap.pop();
+        }
+            ans.push_back(maxHeap.top().first);
+        }
+
+        return ans;
+    }
+};
