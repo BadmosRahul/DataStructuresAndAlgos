@@ -1,0 +1,143 @@
+class Solution {
+public:
+    
+
+    bool isInBound(vector<vector<int>>& grid,vector<pair<int,int>>&temp){
+
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        for(auto& it : temp){
+            if(it.first >= m || it.first <0 || it.second>= n || it.second < 0){
+            return false;
+            
+            }
+        }
+
+        return true;
+    }
+
+    bool canGetVertices(vector<vector<int>>& grid,int &i,int &j,int&delta) {
+
+
+    pair<int,int> A(i - delta,j);
+
+    // cout <<A.first << " "<<A.second<<"  ";
+    pair<int,int> B(i,j + delta);
+    // cout <<B.first << " "<<B.second <<"  ";
+
+    pair<int,int> C(i + delta,j);
+    // cout <<C.first << " "<<C.second <<"  ";
+
+    pair<int,int> D(i,j - delta); 
+    // cout <<D.first << " "<<D.second <<"  ";
+
+    vector<pair<int,int>> temp;
+
+    temp.push_back(A);
+    temp.push_back(B);
+    temp.push_back(C);
+    temp.push_back(D);
+
+
+    if(isInBound(grid,temp)){
+        return true;
+    }
+
+    return false;
+
+    }
+
+
+    void getAllRhombuses(vector<vector<int>>& grid,int &i,int &j, priority_queue<int> &pq){
+
+    pq.push(grid[i][j]);
+    int delta = 1;
+
+   
+    while(canGetVertices(grid,i,j,delta)){
+    
+    int sum = 0;
+
+    pair<int,int> A(i - delta,j);
+
+    // cout <<A.first << " "<<A.second<<"  ";
+    pair<int,int> B(i,j + delta);
+    // cout <<B.first << " "<<B.second <<"  ";
+
+    pair<int,int> C(i + delta,j);
+    // cout <<C.first << " "<<C.second <<"  ";
+
+    pair<int,int> D(i,j - delta); 
+    // cout <<D.first << " "<<D.second <<"  ";
+
+
+   int x = A.first;
+   int y = A.second;
+
+   while(x != B.first && y != B.second){
+       sum+= grid[x][y];
+       x++;
+       y++;
+   }
+
+    while(x!= C.first && y!= C.second){
+        sum += grid[x][y];
+        x++;
+        y--;
+    }
+
+    while(x!=D.first && y!= D.second){
+        sum+= grid[x][y];
+        x--;
+        y--;
+    }
+
+     while(x!=A.first && y!= A.second){
+        sum+=grid[x][y];
+        x--;
+        y++;
+    }
+
+    pq.push(sum);
+    delta++;
+
+
+    }
+    
+
+    }
+bool canPush(vector<int>&t,int cal){
+for(auto &i : t){
+    if(i == cal){
+        return false;
+    }
+}
+
+return true;
+}
+
+
+    vector<int> getBiggestThree(vector<vector<int>>& grid) {
+        vector<int> t;
+
+        priority_queue<int> pq;
+         int m = grid.size();
+        int n = grid[0].size();
+        cout << m <<" "<< n;
+        for(int i = 0; i < m;i++){
+            for(int j = 0; j < n;j++){
+                getAllRhombuses(grid,i,j,pq);
+            }
+        }
+
+        int k = 3;
+        while(!pq.empty() && t.size() < 3){
+            auto top = pq.top();
+            pq.pop();
+            if(canPush(t,top))
+             t.push_back(top);
+        }
+        return t;
+    }
+};
